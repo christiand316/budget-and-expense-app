@@ -1,0 +1,32 @@
+The goal of this project is to make a quick and universally accessible budget/expense tracker. There will be an ability to track installment loans and 
+easily visualize how much money is lost to interest and abilities to make savings goals.
+
+As it stands most budget apps are either simply way too basic, and are effectively a glorified calculator. On the other end of the spectrum there are 
+apps that are a chore to populate with all the desired information- using an app like this should make things easier, not harder. Additionally universal
+ accessibility is a goal with this app, making it so it can accessed from multiple devices and shared among people. This makes it so you can jointly 
+keep track of finances with spouses, roommates, etc.
+
+The target audience of this app would be anyone who wants to keep track of their expenses/debt, however at least initially there will only be USA 
+specific interest rate and stock performance info. 
+
+APIs used will be Fireship for auth and Polygon.io for finance stats. Fireship while has much more initial overhead allows for a much better user 
+experience with login, password management, and info security.
+
+Database schema (refer to budget-app-database-schema.png)
+
+Difficulties that may occur during development with the APIs are: 
+Interpreting the data from Polygon and then using that information in a meaningful way to the end user can be difficult. On the other hand this 
+will be my first time using Fireship and I have seen reports of it being initially difficult to incorporate into workflows. 
+Nearly all information relating to the app will require verification as it is reasonable for users to expect their financial information to be safeguarded. 
+
+The app’s main functions will be:
+-Tracking expenses
+-Sharing expenses within a group/household
+-Quick readouts of expendable income the user has
+-Setting goals for saving money
+-Showing a consolidated list of installment credit and relating information
+-Suggesting payment plans to reduce money lost to interest with installment credit
+
+The user flow of the app will be the user filling in their recurring expenses(groceries, transport costs,etc) and income. From there a profile can be
+ made comparing incoming and outgoing money. The user can input their credit loans and visualize money lost to interest and receive/create payment 
+plans to improve their debt to income ratio as well as reduce money lost to interest. 
