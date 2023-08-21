@@ -1,0 +1,12 @@
+.budget-item {
+    width: 50%;
+    height: fit-content;
+    border: solid black 1px;
+    
+}
+
+.budget-item-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
