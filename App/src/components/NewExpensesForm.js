@@ -12,8 +12,7 @@ function NewPurchaseForm({addExpense, handleDoneAdding}) {
         }
         addExpense(resObj)
         handleDoneAdding(false)
-        //addTodo(value)
-        //setValue('')
+
     }
     const handleCostChange = (e) => {
         setCostValue(e.target.value)
