@@ -17,20 +17,30 @@ export function Debt({ group }) {
   }
   async function addDebt(addObj) {
 
-    const amountInt = parseInt(addObj.totalAmount, 10)
     const data = {
       budgetId: budget.id,
       description: addObj.description,
       rate: addObj.rate,
       startTerm: addObj.startTerm,
       totalTerm: addObj.totalTerm,
-      totalAmount: amountInt,
+      totalAmount:  parseInt(addObj.totalAmount, 10),
     }
     console.log(data)
-    //await axios.post(`${BASE_URL}/api/onetimetransactions`, data)
+    await axios.post(`${BASE_URL}/api/debt`, data)
     //
     //refreshBudget()
 
+  }
+// make sure debt endpoint can be request with group id as header
+  async function refreshBudget() {
+    const resBudget = await axios
+      .get(`${BASE_URL}/api/debt/${group.id}`)
+      .then((res) => res.data);
+
+
+    setBudget(
+      resBudget
+    )
   }
 
 
