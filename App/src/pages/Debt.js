@@ -26,7 +26,7 @@ export function Debt({ group }) {
       description: addObj.description,
       rate: addObj.rate,
       startTerm: addObj.startTerm,
-
+      totalTerm: addObj.totalTerm,
       totalAmount: parseInt(addObj.totalAmount, 10),
     }
     console.log(data)
@@ -34,16 +34,6 @@ export function Debt({ group }) {
     
     refreshBudget()
 
-// make sure debt endpoint can be request with group id as header
-  async function refreshBudget() {
-    const resBudget = await axios
-      .get(`${BASE_URL}/api/debt/${group.id}`)
-      .then((res) => res.data);
-
-
-    setBudget(
-      resBudget
-    )
   }
 
 
