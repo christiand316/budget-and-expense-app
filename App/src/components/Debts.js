@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import DebtItem from "./DebtItem";
+import axios from "axios";
 
-function Debts({ budget }) {
+const BASE_URL = "http://localhost:3000";
 
+function Debts({ budget, refreshBudget }) {
 
     return (
         <div>
@@ -10,11 +12,15 @@ function Debts({ budget }) {
                 <DebtItem
                     totalAmount={item.totalAmount}
                     description={item.description}
-                    termLength={item.termLength}
-                    termStart={item.termStart}
+                    totalTerm={item.totalTerm}
+                    startTerm={item.startTerm}
                     rate={item.rate}
                     id={item.id}
-                    key={index} />
+                    key={index} 
+                
+                    budgetId={item.budgetId}
+                    refreshBudget={refreshBudget}
+                    />
             ))}
         </div>
     )

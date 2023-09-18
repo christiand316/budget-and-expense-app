@@ -8,7 +8,6 @@ return (
     <div>
         <h1>pie chart visualizing debt</h1>
     </div>
-    <button>Add</button>
 </div>
 )
 }

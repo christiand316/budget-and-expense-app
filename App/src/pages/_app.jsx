@@ -2,7 +2,10 @@ import './styles/globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProps } from 'next/app'
 import {SessionProvider} from "next-auth/react"
-
+import '../styles/index.css'
+import '../styles/DebtItem.css';
+import '../styles/DebtChart.css'
+import '../styles/Debt.css'
 
 
 import React, { useState } from 'react';

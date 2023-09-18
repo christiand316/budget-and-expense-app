@@ -4,7 +4,7 @@ function QuickInfo({budget}) {
     
 
     function getDaysInMonth(year, month) {
-        return new Date(year, month + 1, 0).getDate();  // Month is 0 indexed so increment +1 to get the correct month
+        return new Date(year, month + 1, 0).getDate();  // Month is 0 indexed so increment +1 for correct month
       }
       
       const currentDate = new Date();
@@ -14,7 +14,7 @@ function QuickInfo({budget}) {
       
       const totalDaysInMonth = getDaysInMonth(year, month);
 
-
+      console.log(budget)
     return (
         <div className="card">
             <div>

@@ -31,7 +31,7 @@ export const DebtController =  {
       },
       async DeleteDebt(req: NextApiRequest, res: NextApiResponse) {
         try {
-          const parsedId = await z.string().uuid().parseAsync(req.query);
+          const parsedId = await z.string().uuid().parseAsync(req.query.id);
           const group = await DebtServices.DeleteDebt(parsedId);
           return res.status(200).json(group);
         } catch (e) {
@@ -41,7 +41,7 @@ export const DebtController =  {
       },
       async UpdateDebt(req: NextApiRequest, res: NextApiResponse) {
         try {
-          const parsedId = await z.string().uuid().parseAsync(req.query);
+          const parsedId = await z.string().uuid().parseAsync(req.query.id);
           const parsedDebtData = await DebtUpdateSchema.parseAsync(req.body);
           const group = await DebtServices.UpdateDebt(parsedId, parsedDebtData);
           return res.status(200).json(group);
@@ -51,3 +51,4 @@ export const DebtController =  {
         }
       },
 }
+

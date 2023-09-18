@@ -79,19 +79,18 @@ export default function Landing() {
     )
   }
   return (
-    <>
-      <h1>Next.js Budget App</h1>
+    <div className="index">
         <>
-          <nav>
-            <button onClick={() => handleNavButtonClick("home")}>Home</button>
-            <button onClick={() => handleNavButtonClick("debt")}>Debt</button>
-            <button onClick={() => handleNavButtonClick("goals")}>Goals</button>
-            <button onClick={() => signOut()}>Sign out</button>
+          <nav className="nav">
+            <button className="nav-item" onClick={() => handleNavButtonClick("home")}>Home</button>
+            <button className="nav-item" onClick={() => handleNavButtonClick("debt")}>Debt</button>
+            <button className="nav-item" onClick={() => handleNavButtonClick("goals")}>Goals</button>
+            <button className="nav-item" onClick={() => signOut()}>Sign out</button>
           </nav>
           {contentToShow} 
         </>
       
-    </>
+    </div>
   )
 }
 //group={userData.group.id}

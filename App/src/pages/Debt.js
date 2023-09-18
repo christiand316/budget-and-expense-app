@@ -4,6 +4,7 @@ import axios from "axios";
 import QuickInfoDebt from '../components/QuickInfoDebt';
 import Debts from '../components/Debts'
 import NewDebtForm from "../components/NewDebtForm"
+import DebtChart from '../components/DebtChart'
 
 export function Debt({ group }) {
   const [budget, setBudget] = useState(null)
@@ -14,25 +15,38 @@ export function Debt({ group }) {
   }
   function handleDoneAdding() {
     setAddingDebt(false)
+   
   }
+
+  
   async function addDebt(addObj) {
 
-    const amountInt = parseInt(addObj.totalAmount, 10)
     const data = {
       budgetId: budget.id,
       description: addObj.description,
       rate: addObj.rate,
       startTerm: addObj.startTerm,
       totalTerm: addObj.totalTerm,
-      totalAmount: amountInt,
+      totalAmount: parseInt(addObj.totalAmount, 10),
     }
     console.log(data)
-    //await axios.post(`${BASE_URL}/api/onetimetransactions`, data)
-    //
-    //refreshBudget()
+    await axios.post(`${BASE_URL}/api/debt`, data)
+    
+    refreshBudget()
 
   }
 
+
+  async function refreshBudget() {
+    const resBudget = await axios
+      .get(`${BASE_URL}/api/budgets/${group.id}`)
+      .then((res) => res.data);
+
+
+    setBudget(
+      resBudget
+    )
+  }
 
   const BASE_URL = "http://localhost:3000";
 
@@ -53,19 +67,11 @@ export function Debt({ group }) {
     fetchUserData();
 
   }, [])
-  async function refreshBudget() {
-    const resBudget = await axios
-      .get(`${BASE_URL}/api/budgets/${group.id}`)
-      .then((res) => res.data);
 
 
-    setBudget(
-      resBudget
-    )
-  }
 
   return (
-    <div>
+    <div className='debt-container'>
       {isAddingDebt ? (
         <>
           <NewDebtForm addDebt={addDebt} handleDoneAdding={handleDoneAdding} />
@@ -74,11 +80,15 @@ export function Debt({ group }) {
         <>
           <h1>Debt</h1> <button className="add-debt" onClick={handleAddDebt}>+</button>
         </>
-      )
-      }
+      )}
+
+      <div>
+        <DebtChart />
+      </div>
+
       <div className='card'>
         <QuickInfoDebt />
-        {budget && <Debts budget={budget.debt} />}
+        {budget && <Debts budget={budget.debt} refreshBudget={refreshBudget} />}
       </div>
     </div>
   )

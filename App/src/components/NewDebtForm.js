@@ -14,10 +14,10 @@ function NewDebtForm({addDebt, handleDoneAdding}) {
         e.preventDefault()
         const resObj = {
             description: nameValue,
-            rate: rateValue,
+            rate: parseInt(rateValue , 10),
             startTerm: formattedDate,
-            totalTerm: lengthValue,
-            totalAmount: costValue
+            totalTerm: parseInt(lengthValue , 10),
+            totalAmount: parseInt(costValue , 10)
 
         }
         console.log(termValue)
@@ -25,21 +25,7 @@ function NewDebtForm({addDebt, handleDoneAdding}) {
         handleDoneAdding(false)
     }
 
-    const handleCostChange = (e) => {
-        setCostValue(e.target.value)
-    }
-    const handleItemChange = (e) => {
-        setTermValue(e.target.value)
-    }
-    const handleLengthChange = (e) => {
-        setlengthValue(e.target.value)
-    }
-    const handleRateChange = (e) => {
-        setRateValue(e.target.value)
-    }
-    const handleNameChange = (e) => {
-        setNameValue(e.target.value)
-    }
+
 
     const handleTermChange = (e) => {
         const inputMonthYear = e.target.value;
@@ -60,11 +46,19 @@ function NewDebtForm({addDebt, handleDoneAdding}) {
     return (
         <form onSubmit={handleSubmit} className="TodoForm">
             
-        <input type="text" value={nameValue} onChange={handleNameChange} className="todo-input" placeholder='Debt description' />
-        <input type="text" value={costValue} onChange={handleCostChange} className="todo-input" placeholder='Total amount' />
+        <input type="text" value={nameValue} onChange={(e) => {
+        setNameValue(e.target.value)
+    }} className="todo-input" placeholder='Debt description' />
+        <input type="text" value={costValue} onChange={(e) => {
+        setCostValue(e.target.value)
+    }} className="todo-input" placeholder='Total amount' />
         <input type="month" value={selectedMonthYear} onChange={handleTermChange} className="todo-input" placeholder='Start of term' />
-        <input type="text" value={lengthValue} onChange={handleLengthChange} className="todo-input" placeholder='Length of term in months' />
-        <input type="text" value={rateValue} onChange={handleRateChange} className="todo-input" placeholder='Interest rate' />
+        <input type="text" value={lengthValue} onChange={(e) => {
+        setlengthValue(e.target.value)
+    }} className="todo-input" placeholder='Length of term in months' />
+        <input type="text" value={rateValue} onChange={(e) => {
+        setRateValue(e.target.value)
+    }} className="todo-input" placeholder='Interest rate' />
         <button type="submit" className='todo-btn'>+</button>
       </form>
     )
