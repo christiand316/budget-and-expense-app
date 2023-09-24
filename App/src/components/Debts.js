@@ -5,9 +5,16 @@ import axios from "axios";
 const BASE_URL = "http://localhost:3000";
 
 function Debts({ budget, refreshBudget }) {
-
+    console.log(budget)
+    if ( budget.length === 0) {
+        return (
+            <div className="missing-info">
+            <h3> Please add your debt </h3>
+            </div>
+        )
+    }
     return (
-        <div>
+        <>
             {budget.map((item, index) => (
                 <DebtItem
                     totalAmount={item.totalAmount}
@@ -22,7 +29,7 @@ function Debts({ budget, refreshBudget }) {
                     refreshBudget={refreshBudget}
                     />
             ))}
-        </div>
+        </>
     )
 }
 export default Debts

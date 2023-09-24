@@ -7,13 +7,14 @@ export default async function handler(
 ) {
   switch (req.method) {
     case "GET":
-      await GroupController.GetGroup(req, res);
+      await GroupController.GetOwnedGroupsByUserId(req, res);
       break;
     case "POST":
       await GroupController.CreateGroup(req, res);
       break;
     case "PATCH":
       await GroupController.UpdateGroup(req, res);
+      break;
     case "DELETE":
       await GroupController.DeleteGroup(req, res);
       break;

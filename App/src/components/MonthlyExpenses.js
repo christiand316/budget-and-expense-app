@@ -3,12 +3,13 @@ import MonthlyExpenseItem from "./MonthlyExpenseItem";
 import NewExpensesForm from "./NewExpensesForm"
 import axios from "axios";
 
+
+const BASE_URL = "http://localhost:3000";
+
 function MonthlyExpenses({ limit, budget, addExpense, refreshBudget }) {
 
   const [budgets, setBudgets] = useState([])
   const [isAddingPurchase, setAddingPurchase] = useState(false)
-
-  const BASE_URL = "http://localhost:3000";
 
   function handleAddExpense(resObj) {
     setAddingPurchase(true)
@@ -22,21 +23,14 @@ function MonthlyExpenses({ limit, budget, addExpense, refreshBudget }) {
     setBudgets(budgets => budgets.filter(todo => todo.id !== id));
   }
 
-  const updateTask = (task, id) => {
-    setBudgets(
-      budgets.map((todo) =>
-        todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
-      )
-    );
-  };
+  
   async function deleteExpense(id) {
-       
     await axios.delete(`${BASE_URL}/api/recurringtransactions/${id}`).then((res) => res.data);
     refreshBudget()
 }
 
   return (
-    <div className="card">
+    <div className="home-card">
       <h1>Monthly Expenses</h1>
       {isAddingPurchase ? (
         <>
@@ -47,8 +41,6 @@ function MonthlyExpenses({ limit, budget, addExpense, refreshBudget }) {
           <button className="add-expense" onClick={handleAddExpense}>+</button>
         </>
       )}
-      <div>
-
         {budget.map((item, index) => (
           <MonthlyExpenseItem
             amount={item.amount}
@@ -57,7 +49,6 @@ function MonthlyExpenses({ limit, budget, addExpense, refreshBudget }) {
             key={index}
             deleteExpense={deleteExpense} />
         ))}
-      </div>
     </div>
   )
 }

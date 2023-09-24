@@ -7,6 +7,9 @@ p {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
+svg:not(:root) {
+    overflow: visible;
+}
 .index {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -25,4 +28,15 @@ p {
     border: none;
     outline: none;
     cursor: pointer;
+}
+
+.missing-info {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: #FFFFFF;
+    
+}
+
+button {
+    color: white;
 }

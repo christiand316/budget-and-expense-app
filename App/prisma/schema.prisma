@@ -19,30 +19,28 @@ model User {
 }
 
 model Group {
-  id    String @id @default(uuid())
+  id      String @id @default(uuid())
   ownerId String
-  name  String
-  owner User   @relation(fields: [ownerId], references: [id], name: "OwnedGroups")
-  users User[] @relation(name: "UserGroups")
+  name    String
+  owner   User   @relation(fields: [ownerId], references: [id], name: "OwnedGroups")
+  users   User[] @relation(name: "UserGroups")
 
   budget Budget?
-
 }
 
 model Budget {
-  id      String @id @default(uuid())
+  id String @id @default(uuid())
 
   group   Group  @relation(fields: [groupId], references: [id])
   groupId String @unique
 
+  budgetAmount Int?
 
-  debt Debt[]
+  debt           Debt[]
   monthlyExpense MonthlyExpense[]
 
-  oneTimeTransaction    OneTimeTransaction[]
+  oneTimeTransaction OneTimeTransaction[]
 }
-
-
 
 model Debt {
   id          String @id @default(uuid())
@@ -53,30 +51,30 @@ model Debt {
   totalTerm   Int //in months
   totalAmount Float
 
-    budget   Budget? @relation(fields: [budgetId], references: [id])
-  budgetId String 
+  budget   Budget? @relation(fields: [budgetId], references: [id])
+  budgetId String
 }
 
 model MonthlyExpense {
   id          String @id @default(uuid())
   description String
 
-  amount      Float //round 2 decimals
+  amount Float //round 2 decimals
 
-
-    budget   Budget? @relation(fields: [budgetId], references: [id])
-  budgetId String 
+  budget   Budget? @relation(fields: [budgetId], references: [id])
+  budgetId String
 }
 
 model OneTimeTransaction {
-  id          String   @id @default(uuid())
+  id          String @id @default(uuid())
   description String
   amount      Float
   date        String
 
   budget   Budget? @relation(fields: [budgetId], references: [id])
-  budgetId String 
+  budgetId String
 }
+
 //model RecurringTransaction {
 //  id    String @id @default(uuid())
 //

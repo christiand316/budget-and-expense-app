@@ -2,8 +2,10 @@ import prisma from "@p/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { object, z } from "zod";
 import ErrorHandler from "./ErrorHandlers";
-import { GroupUpdateSchema } from "@lib/schemas/GroupSchemas";
+import { GroupUpdateSchema, GroupDeleteSchema } from "@lib/schemas/GroupSchemas";
 import { GroupServices } from "@lib/services/GroupServices";
+import axios from "axios";
+
 
 export const GroupController = {
   async GetAllGroups(req: NextApiRequest, res: NextApiResponse) {
@@ -31,7 +33,7 @@ export const GroupController = {
     }
   },
   async CreateGroup(req: NextApiRequest, res: NextApiResponse) {
-    try {
+        try {
       const groupData = await GroupUpdateSchema.parseAsync(req.body);
       const group = await GroupServices.CreateGroup(groupData);
       return res.status(200).json(group);
@@ -42,7 +44,7 @@ export const GroupController = {
   },
   async DeleteGroup(req: NextApiRequest, res: NextApiResponse) {
     try {
-      const parsedId = await z.string().uuid().parseAsync(req.query);
+      const parsedId = await z.string().uuid().parseAsync(req.query.id);
       const group = await GroupServices.DeleteGroup(parsedId);
       return res.status(200).json(group);
     } catch (e) {

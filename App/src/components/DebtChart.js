@@ -1,55 +1,61 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import * as d3 from "d3";
 
 
 function DebtChart() {
-  useEffect(() => {
-        // Data for the pie chart
-        const data = [
-          { label: "Category A", value: 30 },
-          { label: "Category B", value: 45 },
-          { label: "Category C", value: 25 },
-      ];
 
-      // Set up the dimensions and radius for the pie chart
-      const width = 400;
-      const height = 400;
-      const radius = Math.min(width, height) / 2;
+  const data = [
+    { label: "Category A", value: 30 },
+    { label: "Category B", value: 45 },
+    { label: "Category C", value: 25 },
+  ];
 
-      // Create a color scale
-      const color = d3.scaleOrdinal(d3.schemeCategory10);
+  // Set up the dimensions and radius for the pie chart
+  const width = 250;
+  const height = 250;
+  const radius = Math.min(width, height) / 2;
 
-      // Create a pie chart layout
-      const pie = d3.pie().value((d) => d.value);
+  // Create a color scale
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-      // Select the container div
-      const svg = d3
-          .select("#pie-chart")
-          .append("svg")
-          .attr("width", width)
-          .attr("height", height)
-          .append("g")
-          .attr("transform", `translate(${width / 2},${height / 2})`);
+  // Create a pie chart layout
+  const pie = d3.pie().value((d) => d.value);
 
-      // Generate the pie chart
-      const arcs = svg.selectAll("arc").data(pie(data)).enter();
+  // Select the container div
+  const svg = d3
+    .select("#pie-svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${width / 2},${height / 2})`)
 
-      // Append paths for chart segments
-      arcs
-          .append("path")
-          .attr("d", d3.arc().innerRadius(0).outerRadius(radius))
-          .attr("fill", (d) => color(d.data.label));
+  // Generate the pie chart
+  const arcs = svg.selectAll("arc").data(pie(data)).enter();
+
+  // Append paths for chart segments
+  arcs
+    .append("path")
+    .attr("d", d3.arc().innerRadius(0).outerRadius(radius))
+    .attr("fill", (d) => color(d.data.label));
 
 
-
-  }, [])
-  const pieChartRef = useRef();
   return (
-    <div ref={pieChartRef} id="pie-chart"></div>
+    <svg id="pie-svg" />
   )
 }
 
+
+
 export default DebtChart
+/**
+const pieChartRef = useRef();
+return (
+  <div ref={pieChartRef} id="pie-chart"></div>
+) */
+
+
+
+
 
 //ref={pieChartRef}
 

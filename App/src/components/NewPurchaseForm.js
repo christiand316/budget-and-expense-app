@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-function NewPurchaseForm({addPurchase, handleDoneAdding}) {
+function NewPurchaseForm({ addPurchase, handleDoneAdding }) {
     const [costValue, setCostValue] = useState('')
     const [itemValue, setItemValue] = useState('')
 
@@ -15,19 +15,13 @@ function NewPurchaseForm({addPurchase, handleDoneAdding}) {
         //addTodo(value)
         //setValue('')
     }
-    const handleCostChange = (e) => {
-        setCostValue(e.target.value)
-    }
-    const handleItemChange = (e) => {
-        setItemValue(e.target.value)
-    }
 
     return (
         <form onSubmit={handleSubmit} className="TodoForm">
-        <input type="text" value={costValue} onChange={handleCostChange} className="todo-input" placeholder='Cost' />
-        <input type="text" value={itemValue} onChange={handleItemChange} className="todo-input" placeholder='Item' />
-        <button type="submit" className='todo-btn'>+</button>
-      </form>
+            <input type="text" value={costValue} onChange={(e) => {setCostValue(e.target.value)}} className="todo-input" placeholder='Cost' />
+            <input type="text" value={itemValue} onChange={(e) => {setItemValue(e.target.value)}} className="todo-input" placeholder='Item' />
+            <button type="submit" className='todo-btn'>+</button>
+        </form>
     )
 }
 

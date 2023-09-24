@@ -1,0 +1,44 @@
+.quickinfo-debt-card {
+    height: 300px;
+}
+
+.debt-card {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    background-color: rgb(44, 40, 34);
+    border-radius: 2px solid rgb(238, 191, 133);
+}
+
+.quickinfo-debt {
+    background-color:  rgba(255, 248, 199, 0.1);
+    border-radius: 25px;
+    
+    display: flex;
+	justify-content: space-between;
+}
+
+
+
+.debt-chart {
+    margin-left: 1vh;
+    scale: 90%;
+}
+
+.debt-helpers-container {
+    margin-left:auto;
+
+    display: flex;
+	flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.legend-debt {
+    display: flex;
+    align-self: flex-start;
+
+    margin: 2vh 2vh 0vh 2vh;
+}
+.add-debt {
+    display: flex;
+    margin: 0vh 2vh 2vh 0vh;
+}

@@ -24,10 +24,10 @@ function DebtItem({ description, totalAmount, totalTerm, startTerm, rate, id, bu
     const patchObj = {
       budgetId: budgetId,
       description: description,
-      rate: parseInt(rate,10),
+      rate: parseInt(rate),
       startTerm: startTerm,
-      totalTerm: parseInt(totalTerm,10),
-      totalAmount: parseInt(value, 10)
+      totalTerm: parseInt(totalTerm),
+      totalAmount: parseInt(value)
     }
     
     await axios.patch(`${BASE_URL}/api/debt/${id}`, patchObj).then((res) => res.data);
@@ -66,13 +66,13 @@ function DebtItem({ description, totalAmount, totalTerm, startTerm, rate, id, bu
   let debtObj;
   function calculateMonthlyPayment(totalAmount, rate, totalTerm) {
     const monthlyInterestRate = rate / 12 / 100;
-    const numberOfPayments = totalTerm;
+
 
     const monthlyPayment =
       (totalAmount *
         (monthlyInterestRate *
-          Math.pow(1 + monthlyInterestRate, numberOfPayments))) /
-      (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+          Math.pow(1 + monthlyInterestRate, totalTerm))) /
+      (Math.pow(1 + monthlyInterestRate, totalTerm) - 1);
 
 
     const monthlyPrinciple = totalAmount / totalTerm;

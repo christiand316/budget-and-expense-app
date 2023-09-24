@@ -1,6 +1,10 @@
 import { z } from "zod";
 import prisma from "../../prisma";
-import { GroupUpdateType, GroupCreateType } from "@lib/schemas/GroupSchemas";
+import {
+  GroupUpdateType,
+  GroupCreateType,
+  GroupDeleteType,
+} from "@lib/schemas/GroupSchemas";
 
 export const GroupServices = {
   async GetAllGroups() {
@@ -24,6 +28,8 @@ export const GroupServices = {
     return groups;
   },
   async CreateGroup(groupData: GroupCreateType) {
+    console.log(groupData);
+
     try {
       const group = await prisma.group.create({
         data: {
@@ -51,6 +57,7 @@ export const GroupServices = {
   },
   async DeleteGroup(id: string) {
     try {
+      await prisma.budget.deleteMany({ where: { groupId: id } });
       const group = await prisma.group.delete({
         where: {
           id: id,

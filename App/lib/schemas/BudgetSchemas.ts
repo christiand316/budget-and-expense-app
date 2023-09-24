@@ -1,23 +1,22 @@
-import { z } from "zod"
+import { z } from "zod";
 
 const BudgetSchema = z.object({
-    id: z.string().uuid(),
-    groupId: z.string().uuid(), //get current user for owner id
-
-})
+  id: z.string().uuid(),
+  groupId: z.string().uuid(),
+  budgetAmount: z.number().optional(),
+});
 
 export const BudgetUpdateSchema = BudgetSchema.pick({
-    groupId: true, 
-
-})
+  groupId: true,
+  budgetAmount: true,
+});
 
 export const BudgetCreateSchema = BudgetSchema.pick({
-    groupId: true, 
+  groupId: true,
+});
 
-})
-
-export type BudgetUpdateType = z.infer<typeof BudgetUpdateSchema>
-export type BudgetCreateType = z.infer<typeof BudgetCreateSchema>
+export type BudgetUpdateType = z.infer<typeof BudgetUpdateSchema>;
+export type BudgetCreateType = z.infer<typeof BudgetCreateSchema>;
 
 //export type BudgetCreateType = z.infer<typeof BudgetSchema>
 

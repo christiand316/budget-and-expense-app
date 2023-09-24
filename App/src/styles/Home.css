@@ -1,0 +1,91 @@
+.home-card {
+    background-color: rgba(255, 248, 199, 0.1);
+    border-radius: 20px;
+}
+
+.quickinfo-card {
+    color: white;
+    
+}
+.single-expense-item {
+    color: white;
+    
+}
+.monthly-expense-item {
+    color: white;
+    
+}
+.single-expense-item {
+    color: white;
+   
+}
+
+.quickinfo-highlighted {
+    display: flex;
+    flex-direction: row;
+}
+
+.quickinfo-info-container {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    margin: 20px;
+    padding-top: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.primary-value {
+    font-size: 32px;
+    color: white;
+}
+.primary-value-text{
+    font-size: 16px;
+}
+.secondary-value {
+    font-size: 16px;
+    margin: 5px;
+    color: rgba(120, 120, 120)
+}
+
+.setting-cog {
+    scale: 200%;
+}
+
+.bar {
+    background-color: rgba(240, 248, 255, 0.438);
+    height: 100px;
+    width: 100%;
+}
+.bar-svg {
+    width: 100%;
+    scale: 90%;
+}
+
+
+/* 
+
+
+.quickinfo-info-container {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+
+
+.quickinfo-container {
+    display: flex;
+    flex-direction: row;
+}
+.quickinfo.highlighted {
+    display: flex;
+    flex-direction: column;
+}
+
+*/

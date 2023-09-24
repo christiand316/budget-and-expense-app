@@ -12,17 +12,34 @@ function NewDebtForm({addDebt, handleDoneAdding}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const resObj = {
-            description: nameValue,
-            rate: parseInt(rateValue , 10),
-            startTerm: formattedDate,
-            totalTerm: parseInt(lengthValue , 10),
-            totalAmount: parseInt(costValue , 10)
 
+        try {
+            let parsedRate = parseFloat(rateValue).toFixed(2)
+            const resObj = {
+                description: nameValue,
+                rate: parseFloat(parsedRate),
+                startTerm: formattedDate,
+                totalTerm: parseInt(lengthValue),
+                totalAmount: parseInt(costValue)
+    
+            }
+            console.log(resObj)
+            addDebt(resObj)
+            handleDoneAdding(false)
+        } catch (error) {
+
+            const resObj = {
+                description: nameValue,
+                rate: parseFloat(parsedRate),
+                startTerm: formattedDate,
+                totalTerm: parseInt(lengthValue),
+                totalAmount: parseInt(costValue)
+    
+            }
+            console.log(resObj)
+            handleDoneAdding(false)
+            console.error(error)
         }
-        console.log(termValue)
-        addDebt(resObj)
-        handleDoneAdding(false)
     }
 
 
@@ -35,7 +52,7 @@ function NewDebtForm({addDebt, handleDoneAdding}) {
         const [year, month] = inputMonthYear.split('-');
     
         // Check if the month is less than 10 and remove the leading zero if present
-        const formattedMonth = parseInt(month, 10) < 10 ? month.substring(1) : month;
+        const formattedMonth = parseInt(month) < 10 ? month.substring(1) : month;
     
         // Construct the formatted date with a zero-prefixed or non-zero-prefixed month
         const formatted = `${year}-${formattedMonth}-1`;

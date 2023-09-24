@@ -13,7 +13,6 @@ export const BudgetController = {
   async GetBudget(req: NextApiRequest, res: NextApiResponse) {
     try {
       const parsedId = await z.string().uuid().parseAsync(req.query.id);
-
       const budget = await BudgetServices.GetBudgetById(parsedId); 
       return res.status(200).json(budget);
     } catch (e) {
@@ -33,7 +32,7 @@ export const BudgetController = {
   },
   async DeleteBudget(req: NextApiRequest, res: NextApiResponse) {
     try {
-      const parsedId = await z.string().uuid().parseAsync(req.query);
+      const parsedId = await z.string().uuid().parseAsync(req.query.id);
       const budget = await BudgetServices.DeleteBudget(parsedId);
       return res.status(200).json(budget);
     } catch (e) {
@@ -43,7 +42,7 @@ export const BudgetController = {
   },
   async UpdateBudget(req: NextApiRequest, res: NextApiResponse) {
     try {
-      const parsedId = await z.string().uuid().parseAsync(req.query);
+      const parsedId = await z.string().uuid().parseAsync(req.query.id);
       const parsedBudgetData = await BudgetUpdateSchema.parseAsync(req.body);
       const budget = await BudgetServices.UpdateBudget(
         parsedId,

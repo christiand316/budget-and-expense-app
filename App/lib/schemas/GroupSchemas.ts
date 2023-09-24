@@ -1,3 +1,4 @@
+import { group } from "console"
 import { z } from "zod"
 
 const GroupSchema = z.object({
@@ -14,8 +15,11 @@ export const GroupCreateSchema = GroupSchema.pick({
     ownerId: true,
     name: true
 })
+export const GroupDeleteSchema = GroupSchema.pick({
+    id: true,
+    ownerId: true
+})
 
 export type GroupUpdateType = z.infer<typeof GroupUpdateSchema>
 export type GroupCreateType = z.infer<typeof GroupCreateSchema>
-
-//export type GroupCreateType = z.infer<typeof GroupSchema>
+export type GroupDeleteType = z.infer<typeof GroupDeleteSchema>

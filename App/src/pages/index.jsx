@@ -4,83 +4,169 @@ import React, { useState, useEffect, use } from "react";
 //import { AppProps } from 'next/app';
 //import { Login } from "./Login"
 import axios from "axios";
+import GroupSelect from "../components/GroupSelect";
 import { Home } from "./Home";
 import { Debt } from "./Debt";
 import { Goals } from "./Goals";
 
+const BASE_URL = "http://localhost:3000";
 
 export default function Landing() {
   const [activeComponent, setActiveComponent] = useState();
-  const [userData, setUserData] = useState({});
-  const [budget, setBudget] = useState(null)
+  const [userData, setUserData] = useState(null);
+  const [budget, setBudget] = useState(null);
   const { data: session } = useSession();
 
   //replace with api call
 
-  const BASE_URL = "http://localhost:3000";
-
   const handleNavButtonClick = (componentName) => {
     setActiveComponent(componentName);
   };
-  let contentToShow = <p> activecomploading... </p>
+  let contentToShow = <p> activecomploading... </p>;
 
   if (activeComponent === "home") {
-    contentToShow = <Home group={userData.group} deletePurchase={deletePurchase}/>
+    contentToShow = (
+      <Home group={userData.group} deletePurchase={deletePurchase} />
+    );
   } else if (activeComponent === "debt") {
-    contentToShow = <Debt group={userData.group}/>;
+    contentToShow = <Debt group={userData.group} />;
   } else if (activeComponent === "goals") {
     contentToShow = <Goals />;
   }
+  //
+  //
+  //
+  function activeGroup(group) {
+    setUserData({
+      ...userData,
+      group,
+    });
+    console.log(userData);
+    setActiveComponent("home");
+  }
 
-  
-  function updateUserData(resBudget){
-    resBudget
-    return resBudget.data
+  function updateUserData(resBudget) {
+    resBudget;
+    return resBudget.data;
   }
 
   async function deletePurchase(id) {
-    await axios.delete(`${BASE_URL}/api/onetimetransactions/${id}`)
+    await axios.delete(`${BASE_URL}/api/onetimetransactions/${id}`);
+  }
+  async function createUser() {
+    const data = {
+      name: session.user.name,
+      email: session.user.email,
+    };
+    await axios.post(`${BASE_URL}/api/users`, data);
+    return;
   }
   useEffect(() => {
     async function fetchUserData() {
-   
+      if (!session) {
+        return;
+      }
+
       try {
-        if (!session) {
-          return;
-        }
+        // see if a user exists based on session information... if not create a new user
         const user = await axios
-        .get(`${BASE_URL}/api/users/${session.user.email}`)
-        .then((res) => res.data);
-        const group = await axios
-          .get(`${BASE_URL}/api/groups/${user.id}`)
+          .get(`${BASE_URL}/api/users/${session.user.email}`)
           .then((res) => res.data);
-          
+
         setUserData({
           ...userData,
           user,
+        });
+      } catch (e) {
+        if (e.request.status === 400) createUser();
+        return;
+      }
+
+      try {
+        const group = await axios
+          .get(`${BASE_URL}/api/groups/${user.id}`)
+          .then((res) => res.data);
+
+        setUserData({
+          ...userData,
           group,
         });
-        setActiveComponent("home")
-      } catch (error) {
-        console.error(error);
+        return;
+      } catch (e) {
+        console.error(e);
       }
+
+      //setUserData({
+      //  ...userData,
+      //  user,
+      //})
+
+      try {
+        const group = await axios.get(`${BASE_URL}/api/groups/${user.id}`);
+      } catch (e) {}
+
+      //setActiveComponent("home")
+      //} catch (error) {
+      //console.error(error);
     }
 
     fetchUserData();
-  },[session])
+  }, [session]);
 
 
   if (!session) {
-    return(
+    return (
       <div>
-      <p>Please sign in to access the app.</p>
-      <button onClick={() => signIn()}>Sign in</button>
-    </div>
-    )
+        <p>Please sign in to access the app.</p>
+        <button onClick={() => signIn()}>Sign in</button>
+      </div>
+    );
+  }
+  if (userData && userData?.group == undefined) {
+    return (
+      <div className="index">
+        <GroupSelect userData={userData.user} activeGroup={activeGroup} />
+      </div>
+    );
+  }
+  if (userData?.group) {
+    return (
+      <>
+        <nav className="nav">
+          <button
+            className="nav-item"
+            onClick={() => handleNavButtonClick("home")}
+          >
+            Home
+          </button>
+          <button
+            className="nav-item"
+            onClick={() => handleNavButtonClick("debt")}
+          >
+            Debt
+          </button>
+          <button
+            className="nav-item"
+            onClick={() => handleNavButtonClick("goals")}
+          >
+            Goals
+          </button>
+          <button className="nav-item" onClick={() => signOut()}>
+            Sign out
+          </button>
+        </nav>
+        {contentToShow}
+      </>
+    );
   }
   return (
-    <div className="index">
-        <>
+    <div className="loading">
+      <h2>Loading...</h2>
+    </div>
+  )
+}
+/**
+ <>
           <nav className="nav">
             <button className="nav-item" onClick={() => handleNavButtonClick("home")}>Home</button>
             <button className="nav-item" onClick={() => handleNavButtonClick("debt")}>Debt</button>
@@ -90,13 +176,10 @@ export default function Landing() {
           {contentToShow} 
         </>
       
-    </div>
-  )
-}
+*/
+
 //group={userData.group.id}
 // <Home budgetProp={userData.budget} group={userData.group.id} addPurchase={addPurchase} deletePurchase={deletePurchase}/>
-         
-
 
 /**
   {contentToShow} 

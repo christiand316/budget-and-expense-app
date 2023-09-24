@@ -8,9 +8,10 @@ import { UserUpdateSchema } from "@lib/schemas/UserSchemas";
 export const UserController = {
     async GetUser(req: NextApiRequest, res: NextApiResponse) {
         try {
-            const parsedId = await z.string().parseAsync(req.query.userId)
+            const parsedId = await z.string().parseAsync(req.query.userEmail)
             const user = await UserServices.GetUser(parsedId)
-            return res.status(200).json(user)
+            if(user) return res.status(200).json(user)
+            return res.status(400)
         } catch (e) {
             const error = await ErrorHandler(req, res, e)
             return error
@@ -32,7 +33,7 @@ export const UserController = {
     },
     async getUserGroups(req: NextApiRequest, res: NextApiResponse) {
         try {
-            const parsedId = await z.string().parseAsync(req.query.userId)
+            const parsedId = await z.string().parseAsync(req.query.userEmail)
 
             if (await !UserServices.CheckUserExists(parsedId)) {
                 return res.status(404).json("User does not exist")
@@ -60,7 +61,7 @@ export const UserController = {
     },
     async UpdateUser(req: NextApiRequest, res: NextApiResponse) {
         try {
-            const parsedId = await z.string().uuid().parseAsync(req.query.userId)
+            const parsedId = await z.string().uuid().parseAsync(req.query.userEmail)
             const parsedUser = await UserUpdateSchema.parseAsync(req.body)
             if (!parsedUser) {
                 return res.status(400)

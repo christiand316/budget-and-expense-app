@@ -12,7 +12,7 @@ function SingleExpenseItem({amount, description, date, id, deletePurchase}) {
 
 
     return (
-<div className="todo-item">
+<div className="single-expense-item">
         <p>${amount} {description} {date}</p>
         <div className="button-wrapper">
             <button onClick={handleDelete}>Delete</button>

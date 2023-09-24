@@ -10,7 +10,7 @@ function MonthlyExpenseItem({ amount, description, deleteExpense, id }) {
 
     function handleEdit() {
         setEditing(true)
-     
+
     }
 
     const handleSubmit = (e) => {
@@ -18,21 +18,25 @@ function MonthlyExpenseItem({ amount, description, deleteExpense, id }) {
         setEditing(false)
     }
 
-    const handleChange = (e) => {
-        setValue(e.target.value)
-    }
 
-    return (isEditing ? (<div className="todo-item">
-        <form onSubmit={handleSubmit} className="TodoForm">
-            <input type="text" value={value} onChange={handleChange} className="todo-input"/>
-            <button type="submit" className='todo-btn'>Set Task</button>
-        </form>
-    </div>) : (<div className="expense-item">
-        <p>${amount}   {description}</p>
-        <div className="button-wrapper">
-            <button onClick={handleDelete}>Delete</button>
-        </div>
-    </div>))
+
+    return (
+        isEditing ?
+            (<div className="expense-item expense-item-form">
+                <form onSubmit={handleSubmit} >
+                    <input type="text" value={value} onChange={(e) => {setValue(e.target.value)}} />
+                    <button type="submit" className='home-button'>Set Task</button>
+                </form>
+            </div>
+            ) : (
+                <div className="monthly-expense-item">
+                    <p>${amount}   {description}</p>
+                    <div className="button-wrapper">
+                        <button onClick={handleDelete}>Delete</button>
+                    </div>
+                </div>
+                )
+            )
 }
 
 export default MonthlyExpenseItem
