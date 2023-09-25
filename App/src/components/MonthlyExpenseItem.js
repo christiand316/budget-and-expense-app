@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 
-function MonthlyExpenseItem({ amount, description, deleteExpense, id }) {
+function MonthlyExpenseItem({ amount, description, deleteExpense, id, canDelete }) {
     const [value, setValue] = useState(null)
     const [isEditing, setEditing] = useState(false)
 
-    function handleDelete() {
-        deleteExpense(id)
-    }
 
-    function handleEdit() {
-        setEditing(true)
-
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -21,22 +14,23 @@ function MonthlyExpenseItem({ amount, description, deleteExpense, id }) {
 
 
     return (
-        isEditing ?
-            (<div className="expense-item expense-item-form">
-                <form onSubmit={handleSubmit} >
-                    <input type="text" value={value} onChange={(e) => {setValue(e.target.value)}} />
-                    <button type="submit" className='home-button'>Set Task</button>
-                </form>
+        canDelete ? (
+            <div className="monthly-expense-item">
+            <p>${amount.toLocaleString()}   {description}</p>
+
+            <div className="expense-item-delete" onClick={(e) => { deleteExpense(id) }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 20 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
             </div>
+        </div>
             ) : (
+                
                 <div className="monthly-expense-item">
-                    <p>${amount}   {description}</p>
-                    <div className="button-wrapper">
-                        <button onClick={handleDelete}>Delete</button>
-                    </div>
+                    <p>${amount.toLocaleString()}   {description}</p>
+
+               
                 </div>
-                )
             )
+    )
 }
 
 export default MonthlyExpenseItem

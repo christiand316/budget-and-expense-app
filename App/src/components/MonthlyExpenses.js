@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import MonthlyExpenseItem from "./MonthlyExpenseItem";
 import NewExpensesForm from "./NewExpensesForm"
+import ExpensesChart from "./home/ExpensesChart";
 import axios from "axios";
 
 
 const BASE_URL = "http://localhost:3000";
 
-function MonthlyExpenses({ limit, budget, addExpense, refreshBudget }) {
-
-  const [budgets, setBudgets] = useState([])
+function MonthlyExpenses({ budget, budgetExpenses, addExpense, refreshBudget, budgetUsed }) {
+  const [isEditing, setEditing] = useState(false)
   const [isAddingPurchase, setAddingPurchase] = useState(false)
 
   function handleAddExpense(resObj) {
@@ -19,36 +19,70 @@ function MonthlyExpenses({ limit, budget, addExpense, refreshBudget }) {
   }
 
 
-  function deleteTodo(id) {
-    setBudgets(budgets => budgets.filter(todo => todo.id !== id));
-  }
-
-  
   async function deleteExpense(id) {
     await axios.delete(`${BASE_URL}/api/recurringtransactions/${id}`).then((res) => res.data);
     refreshBudget()
-}
-
+  }
+ 
   return (
     <div className="home-card">
-      <h1>Monthly Expenses</h1>
       {isAddingPurchase ? (
-        <>
+        <div className="card-head">
           <NewExpensesForm addExpense={addExpense} handleDoneAdding={handleDoneAdding} />
+        </div>
+      ) : (
+        <div className="card-head">
+          <div className="purchases-expense-card">
+            <div>
+              <div className="home-card-heading">Monthly Expenses</div>
+              <div className="expenses-total"> ${budgetUsed.monthlyExpenseTotal.toLocaleString()}</div>
+            </div>
+
+            <div className="home-card-icon" onClick={(e) => { setAddingPurchase(true) }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 20 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+            </div>
+          </div>
+
+
+
+        </div>
+      )}
+
+      <div className="expenses-chart">
+        <ExpensesChart budget={budget} budgetUsed={budgetUsed} />
+      </div>
+
+      {isEditing ? (
+        <>
+          <div className="expenses-edit" onClick={(e) => { setEditing(false) }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /><path d="m15 5 4 4" /></svg>
+          </div>
+          {budgetExpenses.map((item, index) => (
+            <MonthlyExpenseItem
+              amount={item.amount}
+              description={item.description}
+              id={item.id}
+              key={index}
+              deleteExpense={deleteExpense}
+              canDelete={true} />
+          ))}
         </>
       ) : (
         <>
-          <button className="add-expense" onClick={handleAddExpense}>+</button>
+          <div className="expenses-edit" onClick={(e) => { setEditing(true) }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /><path d="m15 5 4 4" /></svg>
+          </div>
+          {budgetExpenses.map((item, index) => (
+            <MonthlyExpenseItem
+              amount={item.amount}
+              description={item.description}
+              id={item.id}
+              key={index}
+              deleteExpense={deleteExpense}
+              canDelete={false} />
+          ))}
         </>
       )}
-        {budget.map((item, index) => (
-          <MonthlyExpenseItem
-            amount={item.amount}
-            description={item.description}
-            id={item.id}
-            key={index}
-            deleteExpense={deleteExpense} />
-        ))}
     </div>
   )
 }

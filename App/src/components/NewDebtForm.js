@@ -10,32 +10,46 @@ function NewDebtForm({addDebt, handleDoneAdding}) {
     const [selectedMonthYear, setSelectedMonthYear] = useState('');
     const [formattedDate, setFormattedDate] = useState('');
 
+    function areAllKeysPopulated(obj) {
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (obj[key] === null || obj[key] === undefined) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+      
+      function checkType(str) {
+        if (typeof str === string) return true
+        return false
+      }
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        let parsedRate = parseFloat(rateValue).toFixed(2)
+        const resObj = {
+            description: nameValue.length > 0 ? nameValue : null, //typeof nameValue === string
+            rate: parsedRate.length > 0 ? parseFloat(parsedRate) : null,
+            startTerm: formattedDate.length > 0 ? formattedDate : null,
+            totalTerm: lengthValue.length > 0 ? parseInt(lengthValue) : null,
+            totalAmount: costValue.length > 0 ? parseInt(costValue) : null
+
+        }
+        console.log(areAllKeysPopulated(resObj))
         try {
-            let parsedRate = parseFloat(rateValue).toFixed(2)
-            const resObj = {
-                description: nameValue,
-                rate: parseFloat(parsedRate),
-                startTerm: formattedDate,
-                totalTerm: parseInt(lengthValue),
-                totalAmount: parseInt(costValue)
-    
-            }
+            if(areAllKeysPopulated(resObj))
+            console.log("trywork")
             console.log(resObj)
-            addDebt(resObj)
+            console.log(checkType(nameValue))
+            
+           // addDebt(resObj)
             handleDoneAdding(false)
         } catch (error) {
 
-            const resObj = {
-                description: nameValue,
-                rate: parseFloat(parsedRate),
-                startTerm: formattedDate,
-                totalTerm: parseInt(lengthValue),
-                totalAmount: parseInt(costValue)
-    
-            }
+            console.log("catcherror")
             console.log(resObj)
             handleDoneAdding(false)
             console.error(error)

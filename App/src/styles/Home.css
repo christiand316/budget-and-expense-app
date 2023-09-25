@@ -1,24 +1,21 @@
 .home-card {
     background-color: rgba(255, 248, 199, 0.1);
     border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: white;
 }
 
 .quickinfo-card {
     color: white;
     
 }
-.single-expense-item {
-    color: white;
-    
-}
+
 .monthly-expense-item {
     color: white;
     
 }
-.single-expense-item {
-    color: white;
-   
-}
+
 
 .quickinfo-highlighted {
     display: flex;
@@ -26,8 +23,6 @@
 }
 
 .quickinfo-info-container {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
     margin: 20px;
     padding-top: 20px;
 
@@ -39,7 +34,6 @@
 
 .primary-value {
     font-size: 32px;
-    color: white;
 }
 .primary-value-text{
     font-size: 16px;
@@ -47,7 +41,8 @@
 .secondary-value {
     font-size: 16px;
     margin: 5px;
-    color: rgba(120, 120, 120)
+    color: rgba(120, 120, 120);
+    display: inline
 }
 
 .setting-cog {
@@ -63,8 +58,60 @@
     width: 100%;
     scale: 90%;
 }
+.card-head {
+    height: 50px;
+    margin: 20px;
+    padding-top: 20px;
+}
+.purchases-expense-card {
+    display: flex;
+    justify-content: space-between;
+}
+.home-card-heading {
+    font-size: 32px;
+}
+.home-card-icon {
+    padding-top: 7px;
+    scale: 150%;
+}
+.expense-item {
+    margin-left: 30px;
+}
+.single-expense-item {
+    display: flex;
+    justify-content: space-between;
+    
+}
+.single-expense-container {
+    display: flex;
+}
+.single-expense-primary-value {
+    font-size: 24px;
+}
+.single-expense-secondary-value {
+    font-size: 16px;
+    margin-left: 10px;
+    margin: 8px;
+    color: rgba(120, 120, 120);
+    display: inline
+}
+.expenses-edit {
+    display: flex;
+    justify-content: right;
+  
+    margin: 20px;
+}
 
-
+.monthly-expense-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    margin-left: 30px;
+   
+}
+.expense-item-delete {
+    margin-right: 20px;
+}
 /* 
 
 

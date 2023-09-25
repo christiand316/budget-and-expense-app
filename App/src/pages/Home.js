@@ -131,7 +131,7 @@ export function Home({ group }) {
         <div>
           <QuickInfoHome budget={budget} budgetUsed={budgetUsed} />
           <SingleExpenses budget={budget.oneTimeTransaction} addPurchase={addPurchase} deletePurchase={deletePurchase} />
-          <MonthlyExpenses budget={budget.monthlyExpense} debt={budget.debt} addExpense={addExpense} refreshBudget={refreshBudget} />
+          <MonthlyExpenses budget={budget} budgetExpenses={budget.monthlyExpense} debt={budget.debt} addExpense={addExpense} refreshBudget={refreshBudget} budgetUsed={budgetUsed} />
         </div>
       ) : (
         <p> Loading... </p>

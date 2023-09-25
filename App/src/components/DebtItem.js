@@ -108,6 +108,7 @@ function DebtItem({ description, totalAmount, totalTerm, startTerm, rate, id, bu
         </form>
       </div>
       <button onClick={handleDebtDelete}>Delete</button>
+      <button onClick={(e) => { setEditing(false) }}>Cancel</button>
     </div>
   ) : (
     <div className="debt-card">

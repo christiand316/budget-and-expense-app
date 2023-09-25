@@ -1,9 +1,38 @@
 import React from "react";
 import * as d3 from "d3";
 
-function HomeChart({ budget, budgetUsed }) {
+function ExpensesChart({ budget, budgetUsed }) {
 
-    const svg = d3.select("#bar-svg")
+
+    function sortExpensesByValue(arr, key) {
+        if (arr.length === 0) return [];
+
+        return arr.sort((a, b) => b[key] - a[key]);
+    }
+
+    //get the debts, that will always be the left most item
+    // then sort monthly expenses taking the 4 highest 
+
+    // if the array is more than 4 add up the rest 
+    const sortedExpenses = sortExpensesByValue(budget.monthlyExpense, "amount")
+    // 
+    console.log(sortedExpenses)
+
+    /*function sumAndRemoveFirst(arr) {
+        let results = [];
+      
+        while (arr.length > 0) {
+          let sum = arr.reduce((acc, current) => acc + current, 0);
+          results.push(sum);
+          arr.shift(); // Remove the first element from the array
+        }
+      
+        return results;
+      }
+     console.log(sumAndRemoveFirst(sortedExpenses))
+*/
+
+    const svg = d3.select("#expense-bar-svg")
 
     svg
         .append('rect')
@@ -14,17 +43,35 @@ function HomeChart({ budget, budgetUsed }) {
         .style('fill', '#FFF8C7')
 
 
-
+        function populateBar() {
+            let limitedLengthExpenses = sortedExpenses.slice(0, 4)
+            console.log(limitedLengthExpenses)
+            for (let i = 0; i <= 4; i++) {
+                // limit the array length to 4
+                let sumPercent = limitedLengthExpenses.reduce((acc, cur) => acc + cur.amount, 0)
+                console.log(sumPercent)
+                limitedLengthExpenses.pop()
+                
+                svg
+                    .append('rect')
+                    .attr('width', `${purchasesPercent}%`)
+                    .attr('height', '60')
+                    .attr('rx', '20')
+                    .attr('ry', '20')
+                    .style('fill', '#D3CC00')
+            }
+        }
+      populateBar()
     // Purchases 
     let purchasesPercent = `${(((budgetUsed.oneTimeTransactionTotal + budgetUsed.monthlyExpenseTotal + budgetUsed.debtTotal) / budget.budgetAmount) * 100).toFixed(0)}%`
-   
+
     svg
         .append('rect')
         .attr('width', `${purchasesPercent}%`)
         .attr('height', '60')
         .attr('rx', '20')
         .attr('ry', '20')
-        .style('fill', '#F06449')
+        .style('fill', '#D3CC00')
 
 
     // Monthly Expenses
@@ -70,14 +117,14 @@ function HomeChart({ budget, budgetUsed }) {
 
     return (
         <>
-            <svg className="bar-svg" width="100%" height="60">
+            <svg className="expense-bar-svg" width="100%" height="60">
                 <defs>
-                    <clipPath id="myClip">
+                    <clipPath id="myExpenseClip">
                         <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
                     </clipPath>
                 </defs>
 
-                <rect width="100%" height="60" rx="20" ry="20" fill="#FFF8C7" clipPath="url(#myClip)" />
+                <rect width="100%" height="60" rx="20" ry="20" fill="#FFF8C7" clipPath="url(#myExpenseClip)" />
                 <rect width={purchasesPercent} height="60" rx="20" ry="20" fill="#F06449" clipPath="url(#myClip)" />
                 <rect width={expensesPercent} height="60" rx="20" ry="20" fill="#5F5F5F" clipPath="url(#myClip)" />
                 <rect width={debtPercent} height="60" rx="20" ry="20" fill="#0E1212" clipPath="url(#myClip)" />
@@ -87,5 +134,4 @@ function HomeChart({ budget, budgetUsed }) {
     )
 }
 
-export default HomeChart
-//<svg className="bar-svg" id="bar-svg" clipPath="url(#myClip)" />
+export default ExpensesChart
