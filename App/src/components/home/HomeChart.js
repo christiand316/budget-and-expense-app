@@ -70,7 +70,7 @@ function HomeChart({ budget, budgetUsed }) {
 
     return (
         <>
-            <svg className="bar-svg" width="100%" height="60">
+            <svg className="quickinfo-bar-svg" width="100%" height="60">
                 <defs>
                     <clipPath id="myClip">
                         <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />

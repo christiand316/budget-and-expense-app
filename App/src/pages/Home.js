@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import MonthlyExpenses from '../components/MonthlyExpenses';
-import QuickInfoHome from '../components/QuickInfoHome';
-import SingleExpenses from '../components/SingleExpenses';
+import MonthlyExpenses from '../components/home/MonthlyExpenses';
+import QuickInfoHome from '../components/home/QuickInfoHome';
+import SingleExpenses from '../components/home/SingleExpenses';
 import axios from "axios";
-//import './styles/Home.css'
+
 
 
 const BASE_URL = "http://localhost:3000";
@@ -129,7 +129,7 @@ export function Home({ group }) {
 
       {budget && budgetUsed ? (
         <div>
-          <QuickInfoHome budget={budget} budgetUsed={budgetUsed} />
+          <QuickInfoHome budget={budget} budgetUsed={budgetUsed} refreshBudget={refreshBudget}/>
           <SingleExpenses budget={budget.oneTimeTransaction} addPurchase={addPurchase} deletePurchase={deletePurchase} />
           <MonthlyExpenses budget={budget} budgetExpenses={budget.monthlyExpense} debt={budget.debt} addExpense={addExpense} refreshBudget={refreshBudget} budgetUsed={budgetUsed} />
         </div>
@@ -141,35 +141,3 @@ export function Home({ group }) {
     </section>
   );
 }
-//        <SingleExpenses budget={budget.oneTimeTransaction[0]}/>
-
-/**
- * import React, { useState } from 'react';
-import BudgetItem from "../components/BudgetItem";
-
-export function Dashboard() {
-
-    return (
-        <div>
-            <h1>this is the dashboard</h1>
-        </div>
-    );
-}
-
-
- * 
- * 
- * 
- * 
- * 
- * 
- *     <section>
-      <button>Add Budget</button>
-      <button>Add Expense</button>
-      
-      <div>
-        <BudgetItem name='fortnite cards' amount='200'></BudgetItem>
-      </div>
-    </section>
-
- */

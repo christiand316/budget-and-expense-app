@@ -1,16 +1,20 @@
-import "./styles/globals.css";
+import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import Head from 'next/head';
 
 import "../styles/index.css";
-import "../styles/DebtItem.css";
-import "../styles/DebtChart.css";
-import "../styles/Debt.css";
-import "../styles/Group.css";
-import "../styles/Home.css";
 
+import "../styles/home/Home.css";
+import "../styles/home/HomeButtonsAndForms.css"
+import "../styles/home/MonthlyExpenses.css"
+
+import "../styles/debt/DebtItem.css";
+import "../styles/debt/DebtChart.css";
+import "../styles/debt/Debt.css";
+
+import "../styles/Group.css";
 import React, { useState } from "react";
 
 const queryClient = new QueryClient();
@@ -30,19 +34,3 @@ export default function App({
     </>
   );
 }
-
-//<Component {...pageProps} />
-
-/**
- *   const { session, ...restPageProps } = pageProps;
-  console.log(session)
-  return (
-  <QueryClientProvider client={queryClient}>
-    <SessionProvider session={session}>
-      <p>hello</p>
-      <button onClick={() => signOut()}>Sign out</button>
-    </SessionProvider>
-  </QueryClientProvider>)
-}
- * 
- */

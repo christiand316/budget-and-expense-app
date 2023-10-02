@@ -1,8 +1,7 @@
 import React from "react";
 import * as d3 from "d3";
 
-function ExpensesChart({ budget, budgetUsed }) {
-
+function ExpensesChart({ budget, budgetUsed, expensesChartColors }) {
 
     function sortExpensesByValue(arr, key) {
         if (arr.length === 0) return [];
@@ -10,128 +9,219 @@ function ExpensesChart({ budget, budgetUsed }) {
         return arr.sort((a, b) => b[key] - a[key]);
     }
 
-    //get the debts, that will always be the left most item
-    // then sort monthly expenses taking the 4 highest 
-
-    // if the array is more than 4 add up the rest 
     const sortedExpenses = sortExpensesByValue(budget.monthlyExpense, "amount")
-    // 
-    console.log(sortedExpenses)
+    const monthlyTotal = budgetUsed.oneTimeTransactionTotal + budgetUsed.monthlyExpenseTotal + budgetUsed.debtTotal
 
-    /*function sumAndRemoveFirst(arr) {
-        let results = [];
-      
-        while (arr.length > 0) {
-          let sum = arr.reduce((acc, current) => acc + current, 0);
-          results.push(sum);
-          arr.shift(); // Remove the first element from the array
+
+    const debtPercent = parseInt(((budgetUsed.debtTotal / monthlyTotal) * 100).toFixed(0))
+
+    function populateBar() {
+        let limitedLengthExpenses = sortedExpenses.slice(0, 4)
+
+        let percentages = []
+
+        for (let i = 0; i < 4; i++) {
+
+            let sumPercent = limitedLengthExpenses.reduce((acc, cur) => acc + cur.amount, 0)
+
+            percentages.push(`${parseInt(((sumPercent / monthlyTotal) * 100).toFixed(0)) + debtPercent}%`)
+
+            limitedLengthExpenses.pop()
         }
-      
-        return results;
-      }
-     console.log(sumAndRemoveFirst(sortedExpenses))
-*/
 
-    const svg = d3.select("#expense-bar-svg")
+        return percentages
+    }
 
-    svg
-        .append('rect')
-        .attr('width', '100%')
-        .attr('height', '60')
-        .attr('rx', '20')
-        .attr('ry', '20')
-        .style('fill', '#FFF8C7')
+    if (budget.monthlyExpense.length === 0) {
+        const svg = d3.select("#expense-bar-svg")
 
+        svg
+            .append('rect')
+            .attr('width', '100%')
+            .attr('height', '60')
+            .attr('rx', '20')
+            .attr('ry', '20')
+            .style('fill', `${expensesChartColors[6]}`)
+        return (
+            <>
+                <svg className="expense-bar-svg" width="100%" height="60">
+                    <defs>
+                        <clipPath id="myExpenseClip">
+                            <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
+                        </clipPath>
+                    </defs>
 
-        function populateBar() {
-            let limitedLengthExpenses = sortedExpenses.slice(0, 4)
-            console.log(limitedLengthExpenses)
-            for (let i = 0; i <= 4; i++) {
-                // limit the array length to 4
-                let sumPercent = limitedLengthExpenses.reduce((acc, cur) => acc + cur.amount, 0)
-                console.log(sumPercent)
-                limitedLengthExpenses.pop()
-                
-                svg
-                    .append('rect')
-                    .attr('width', `${purchasesPercent}%`)
-                    .attr('height', '60')
-                    .attr('rx', '20')
-                    .attr('ry', '20')
-                    .style('fill', '#D3CC00')
-            }
-        }
-      populateBar()
-    // Purchases 
-    let purchasesPercent = `${(((budgetUsed.oneTimeTransactionTotal + budgetUsed.monthlyExpenseTotal + budgetUsed.debtTotal) / budget.budgetAmount) * 100).toFixed(0)}%`
+                    <rect width="100%" height="60" rx="20" ry="20" fill={`${expensesChartColors[0]}`} clipPath="url(#myExpenseClip)" />
+                    <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" fillOpacity="0" stroke="#272924" stroke-opacity="1" stroke-width="10px" />
+                </svg>
+            </>
+        )
+    }
+    if (budget.monthlyExpense.length > 4) {
+        const percentages = populateBar()
 
-    svg
-        .append('rect')
-        .attr('width', `${purchasesPercent}%`)
-        .attr('height', '60')
-        .attr('rx', '20')
-        .attr('ry', '20')
-        .style('fill', '#D3CC00')
+        const svg = d3.select("#expense-bar-svg")
 
+        svg
+            .append('rect')
+            .attr('width', '100%')
+            .attr('height', '60')
+            .attr('rx', '20')
+            .attr('ry', '20')
+            .style('fill', `${expensesChartColors[6]}`)
 
-    // Monthly Expenses
-    let expensesPercent = `${(((budgetUsed.monthlyExpenseTotal + budgetUsed.debtTotal) / budget.budgetAmount) * 100).toFixed(0)}%`
-    svg
-        .append('rect')
-        .attr('width', `${expensesPercent}%`)
-        .attr('height', '60')
-        .attr('rx', '20')
-        .attr('ry', '20')
-        .style('fill', '#5F5F5F')
+        return (
+            <>
+                <svg className="expense-bar-svg" width="100%" height="60">
+                    <defs>
+                        <clipPath id="myExpenseClip">
+                            <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
+                        </clipPath>
+                    </defs>
 
+                    <rect width="100%" height="60" rx="20" ry="20" fill={`${expensesChartColors[6]}`} clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[0]} height="60" rx="20" ry="20" fill={`${expensesChartColors[4]}`} clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[1]} height="60" rx="20" ry="20" fill={`${expensesChartColors[3]}`} clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[2]} height="60" rx="20" ry="20" fill={`${expensesChartColors[2]}`} clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[3]} height="60" rx="20" ry="20" fill={`${expensesChartColors[1]}`} clipPath="url(#myExpenseClip)" />
 
 
-    // debt
-    let debtPercent = `${((budgetUsed.debtTotal / budget.budgetAmount) * 100).toFixed(0)}%`
+                    <rect width={`${debtPercent}%`} height="60" rx="20" ry="20" fill={`${expensesChartColors[0]}`} clipPath="url(#myExpenseClip)" />
+                    <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" fillOpacity="0" stroke="#272924" stroke-opacity="1" stroke-width="10px" />
+                </svg>
+            </>
+        )
+    }
+    if (budget.monthlyExpense.length === 1) {
+        const percentages = populateBar()
 
-    svg
-        .append('rect')
-        .attr('width', `${debtPercent}%`)
-        .attr('height', '60')
-        .attr('rx', '20')
-        .attr('ry', '20')
-        .style('fill', '#0E1212')
+        const svg = d3.select("#expense-bar-svg")
 
-    // stroke along outside to prevent 1px clipping
+        svg
+            .append('rect')
+            .attr('width', '100%')
+            .attr('height', '60')
+            .attr('rx', '20')
+            .attr('ry', '20')
+            .style('fill', `${expensesChartColors[5]}`)
 
+        return (
+            <>
+                <svg className="expense-bar-svg" width="100%" height="60">
+                    <defs>
+                        <clipPath id="myExpenseClip">
+                            <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
+                        </clipPath>
+                    </defs>
 
+                    <rect width="100%" height="60" rx="20" ry="20" fill="#FFF8C7" clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[0] + debtPercent} height="60" rx="20" ry="20" fill={`${expensesChartColors[1]}`} clipPath="url(#myClip)" />
 
-    svg
-        .append('rect')
-        .attr('width', '100%')
-        .attr('height', '60')
-        .attr('rx', '20')
-        .attr('ry', '20')
-        .attr('stroke', "#272924")
-        .attr('stroke-opacity', "1")
-        .attr('stroke-width', '10px')
-        .attr('fill-opacity', '0')
-        .attr('clipPath', "url(#graph-clip-mask)")
-    svg
+                    <rect width={debtPercent} height="60" rx="20" ry="20" fill={`${expensesChartColors[0]}`} clipPath="url(#myClip)" />
+                    <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" fillOpacity="0" stroke="#272924" stroke-opacity="1" stroke-width="10px" />
+                </svg>
+            </>
+        )
+    }
+    if (budget.monthlyExpense.length === 2) {
+        const percentages = populateBar()
 
+        const svg = d3.select("#expense-bar-svg")
 
-    return (
-        <>
-            <svg className="expense-bar-svg" width="100%" height="60">
-                <defs>
-                    <clipPath id="myExpenseClip">
-                        <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
-                    </clipPath>
-                </defs>
+        svg
+            .append('rect')
+            .attr('width', '100%')
+            .attr('height', '60')
+            .attr('rx', '20')
+            .attr('ry', '20')
+            .style('fill', `${expensesChartColors[5]}`)
 
-                <rect width="100%" height="60" rx="20" ry="20" fill="#FFF8C7" clipPath="url(#myExpenseClip)" />
-                <rect width={purchasesPercent} height="60" rx="20" ry="20" fill="#F06449" clipPath="url(#myClip)" />
-                <rect width={expensesPercent} height="60" rx="20" ry="20" fill="#5F5F5F" clipPath="url(#myClip)" />
-                <rect width={debtPercent} height="60" rx="20" ry="20" fill="#0E1212" clipPath="url(#myClip)" />
-                <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" fillOpacity="0" stroke="#272924" stroke-opacity="1" stroke-width="10px" />
-            </svg>
-        </>
-    )
+        return (
+            <>
+                <svg className="expense-bar-svg" width="100%" height="60">
+                    <defs>
+                        <clipPath id="myExpenseClip">
+                            <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
+                        </clipPath>
+                    </defs>
+
+                    <rect width="100%" height="60" rx="20" ry="20" fill="#FFF8C7" clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[0]} height="60" rx="20" ry="20" fill={`${expensesChartColors[2]}`} clipPath="url(#myClip)" />
+                    <rect width={percentages[1]} height="60" rx="20" ry="20" fill={`${expensesChartColors[1]}`} clipPath="url(#myClip)" />
+
+                    <rect width={`${debtPercent}%`} height="60" rx="20" ry="20" fill={`${expensesChartColors[0]}`} clipPath="url(#myClip)" />
+                    <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" fillOpacity="0" stroke="#272924" stroke-opacity="1" stroke-width="10px" />
+                </svg>
+            </>
+        )
+    }
+    if (budget.monthlyExpense.length === 3) {
+        const percentages = populateBar()
+
+        const svg = d3.select("#expense-bar-svg")
+
+        svg
+            .append('rect')
+            .attr('width', '100%')
+            .attr('height', '60')
+            .attr('rx', '20')
+            .attr('ry', '20')
+            .style('fill', `${expensesChartColors[5]}`)
+
+        return (
+            <>
+                <svg className="expense-bar-svg" width="100%" height="60">
+                    <defs>
+                        <clipPath id="myExpenseClip">
+                            <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
+                        </clipPath>
+                    </defs>
+
+                    <rect width="100%" height="60" rx="20" ry="20" fill="#FFF8C7" clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[0]} height="60" rx="20" ry="20" fill={`${expensesChartColors[3]}`} clipPath="url(#myClip)" />
+                    <rect width={percentages[1]} height="60" rx="20" ry="20" fill={`${expensesChartColors[2]}`} clipPath="url(#myClip)" />
+                    <rect width={percentages[2]} height="60" rx="20" ry="20" fill={`${expensesChartColors[1]}`} clipPath="url(#myClip)" />
+
+                    <rect width={`${debtPercent}%`} height="60" rx="20" ry="20" fill={`${expensesChartColors[0]}`} clipPath="url(#myClip)" />
+                    <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" fillOpacity="0" stroke="#272924" stroke-opacity="1" stroke-width="10px" />
+                </svg>
+            </>
+        )
+    }
+    if (budget.monthlyExpense.length === 4) {
+        const percentages = populateBar()
+
+        const svg = d3.select("#expense-bar-svg")
+
+        svg
+            .append('rect')
+            .attr('width', '100%')
+            .attr('height', '60')
+            .attr('rx', '20')
+            .attr('ry', '20')
+            .style('fill', `${expensesChartColors[5]}`)
+
+        return (
+            <>
+                <svg className="expense-bar-svg" width="100%" height="60">
+                    <defs>
+                        <clipPath id="myExpenseClip">
+                            <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" />
+                        </clipPath>
+                    </defs>
+
+                    <rect width="100%" height="60" rx="20" ry="20" fill="#FFF8C7" clipPath="url(#myExpenseClip)" />
+                    <rect width={percentages[0]} height="60" rx="20" ry="20" fill={`${expensesChartColors[4]}`} clipPath="url(#myClip)" />
+                    <rect width={percentages[1]} height="60" rx="20" ry="20" fill={`${expensesChartColors[3]}`} clipPath="url(#myClip)" />
+                    <rect width={percentages[2]} height="60" rx="20" ry="20" fill={`${expensesChartColors[2]}`} clipPath="url(#myClip)" />
+                    <rect width={percentages[3]} height="60" rx="20" ry="20" fill={`${expensesChartColors[1]}`} clipPath="url(#myClip)" />
+
+                    <rect width={`${debtPercent}%`} height="60" rx="20" ry="20" fill={`${expensesChartColors[0]}`} clipPath="url(#myClip)" />
+                    <rect width="90%" height="50" rx="20" ry="20" x="5%" y="5" fillOpacity="0" stroke="#272924" stroke-opacity="1" stroke-width="10px" />
+                </svg>
+            </>
+        )
+    }
 }
 
 export default ExpensesChart

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-//import './styles/Debt.css'
 import axios from "axios";
-import QuickInfoDebt from '../components/QuickInfoDebt';
-import Debts from '../components/Debts'
-import NewDebtForm from "../components/NewDebtForm"
+import QuickInfoDebt from '../components/debt/QuickInfoDebt';
+import DebtItem from "../components/debt/DebtItem";
+import NewDebtForm from "../components/forms/NewDebtForm"
 
 export function Debt({ group }) {
   const [budget, setBudget] = useState(null)
 
+  const debtChartColors = ["#519848", "#F06449", "#D3CC00", "#12EAEA", "#55828B",  "#D89982"] //  1stExpense, 2ndExpense, 3rdExpense, 4thExpense, backgroundColor, expenseOverflow
 
-
-
+// "#D89982", "#FF8A5B", "#54D180"
 
   async function refreshBudget() {
     try {
@@ -50,12 +49,28 @@ export function Debt({ group }) {
 
 
 
-  return (
-    <section>
-      <QuickInfoDebt refreshBudget={refreshBudget} />
-      {budget && <Debts budget={budget.debt} refreshBudget={refreshBudget} />}
-    </section>
-  )
-}
+  if (budget) {
+    return (
+      <section>
+        <QuickInfoDebt budget={budget.debt} budgetId={budget.id} debtChartColors={debtChartColors} refreshBudget={refreshBudget} />
 
-//<Debts budget={budget.debt}/>
+        {budget.debt.map((item, index) => (
+          <DebtItem
+            totalAmount={item.totalAmount}
+            description={item.description}
+            totalTerm={item.totalTerm}
+            startTerm={item.startTerm}
+            rate={item.rate}
+            id={item.id}
+            key={index}
+            budgetId={item.budgetId}
+
+            debtChartColors={debtChartColors}
+            refreshBudget={refreshBudget}
+          />
+        ))}
+
+      </section>
+    )
+  }
+}

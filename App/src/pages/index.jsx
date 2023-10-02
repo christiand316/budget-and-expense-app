@@ -1,10 +1,8 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useState, useEffect, use } from "react";
 
-//import { AppProps } from 'next/app';
-//import { Login } from "./Login"
 import axios from "axios";
-import GroupSelect from "../components/GroupSelect";
+import GroupSelect from "../components/group/GroupSelect";
 import { Home } from "./Home";
 import { Debt } from "./Debt";
 import { Goals } from "./Goals";
@@ -41,7 +39,6 @@ export default function Landing() {
       ...userData,
       group,
     });
-    console.log(userData);
     setActiveComponent("home");
   }
 
@@ -116,9 +113,9 @@ export default function Landing() {
 
   if (!session) {
     return (
-      <div>
-        <p>Please sign in to access the app.</p>
-        <button onClick={() => signIn()}>Sign in</button>
+      <div className="signin-card">
+        <div className="signin-text">Please sign in to access the app.</div>
+        <button className="signin-button" onClick={() => signIn()}>Sign in</button>
       </div>
     );
   }
@@ -134,25 +131,21 @@ export default function Landing() {
       <>
         <nav className="nav">
           <button
-            className="nav-item"
+            className={activeComponent === "home" ? "nav-item active-nav-item" : "nav-item"}
             onClick={() => handleNavButtonClick("home")}
           >
             Home
           </button>
           <button
-            className="nav-item"
+             className={activeComponent === "debt" ? "nav-item active-nav-item" : "nav-item"}
             onClick={() => handleNavButtonClick("debt")}
           >
             Debt
           </button>
-          <button
-            className="nav-item"
-            onClick={() => handleNavButtonClick("goals")}
-          >
-            Goals
-          </button>
-          <button className="nav-item" onClick={() => signOut()}>
-            Sign out
+          
+          <button className="nav-item" 
+          onClick={() => signOut()}>
+            Sign Out
           </button>
         </nav>
         {contentToShow}
@@ -165,75 +158,3 @@ export default function Landing() {
     </div>
   )
 }
-/**
- <>
-          <nav className="nav">
-            <button className="nav-item" onClick={() => handleNavButtonClick("home")}>Home</button>
-            <button className="nav-item" onClick={() => handleNavButtonClick("debt")}>Debt</button>
-            <button className="nav-item" onClick={() => handleNavButtonClick("goals")}>Goals</button>
-            <button className="nav-item" onClick={() => signOut()}>Sign out</button>
-          </nav>
-          {contentToShow} 
-        </>
-      
-*/
-
-//group={userData.group.id}
-// <Home budgetProp={userData.budget} group={userData.group.id} addPurchase={addPurchase} deletePurchase={deletePurchase}/>
-
-/**
-  {contentToShow} 
-
-          {userData.group ? (
-            <Home group={userData.group} deletePurchase={deletePurchase}/>
-          ) : (
-            <p>Loading...</p>
-          )}
-  const budget2 = {
-    budgetAmount: "6200",
-    budgetRemaining: "362",
-
-    oneTimeTransaction: [
-      [
-        { amount: "15", description: "Arbor Day", date: "12/03" },
-        { amount: "5", description: "Coffee", date: "12/05" },
-      ],
-    ],
-    recurringPayment: [
-      [
-        //Monthly Expenses
-        { amount: "3100", description: "Debts" },
-        { amount: "510", description: "Groceries" },
-        { amount: "365", description: "Utilities" },
-        { amount: "105", description: "Phone Bill" },
-        { amount: "150", description: "Gas" },
-        { amount: "20", description: "Netflix" },
-      ],
-      [
-        // Debts ... Date format "year-mo-da"
-        {
-          description: "Home Mortgage",
-          totalAmount: "240000",
-          termStart: "2019-6-1",
-          termLength: "360",
-          rate: "8",
-        },
-        {
-          description: "Car Loan",
-          totalAmount: "24000",
-          termStart: "2023-7-1",
-          termLength: "72",
-          rate: "8.3",
-        },
-        {
-          description: "Credit Card Debt",
-          totalAmount: "9200",
-          termStart: "2022-1-1",
-          termLength: "36",
-          rate: "13.4",
-        },
-      ],
-    ],
-  };
-
-*/
