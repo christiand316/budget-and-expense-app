@@ -6,10 +6,10 @@ import axios from "axios";
 
 
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL =  process.env.BASE_URL // "http://localhost:3000";
 
 
-export function Home({ group }) {
+function Home({ group }) {
   //const [budget, setBudget] = useState(budgetProp.budget)
   const [budget, setBudget] = useState(null)
   const [loading, isLoading] = useState(null)
@@ -38,7 +38,7 @@ export function Home({ group }) {
     })
     budget.debt.forEach((val) => {
       const monthlyDebtPayment = calculateMonthlyPayment(val.totalAmount, val.rate, val.totalTerm).toFixed(0)
-    
+
       budgetTotal.debtTotal += parseInt(monthlyDebtPayment)
     })
     setBudgetUsed(budgetTotal)
@@ -129,7 +129,7 @@ export function Home({ group }) {
 
       {budget && budgetUsed ? (
         <div>
-          <QuickInfoHome budget={budget} budgetUsed={budgetUsed} refreshBudget={refreshBudget}/>
+          <QuickInfoHome budget={budget} budgetUsed={budgetUsed} refreshBudget={refreshBudget} />
           <SingleExpenses budget={budget.oneTimeTransaction} addPurchase={addPurchase} deletePurchase={deletePurchase} />
           <MonthlyExpenses budget={budget} budgetExpenses={budget.monthlyExpense} debt={budget.debt} addExpense={addExpense} refreshBudget={refreshBudget} budgetUsed={budgetUsed} />
         </div>
@@ -141,3 +141,5 @@ export function Home({ group }) {
     </section>
   );
 }
+
+export default Home

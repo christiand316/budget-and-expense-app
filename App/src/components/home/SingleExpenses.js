@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import SingleExpenseItem from "./SingleExpenseItem";
 import NewPurchaseForm from "../forms/NewPurchaseForm"
-import axios from "axios";
 
-
-
-const BASE_URL = "http://localhost:3000";
 
 function SingleExpenses({ budget, budgetExpenses, addPurchase, refreshBudget, deletePurchase, budgetUsed }) {
     const [budgets, setBudgets] = useState([])

@@ -1,31 +1,23 @@
 import React from 'react';
 import * as d3 from "d3";
 
-
 function DebtChart({  debtChartColors, chartData }) {
-  /* calculateMonthlyPayment will get the monthly payment for a debt using its owed amount, term, and interest rate.
-     calculateData to get all monthly payments for debts, then sorts those payments from high-to-low and passes it to populate data.
-     populateData takes a sorted array and will take the 5 largest values to use for populating the pie chart. If there is less
-   
-     */
-
-
-
+  /* 
+    calculateMonthlyPayment will get the monthly payment for a debt using its owed amount, term, and interest rate.
+    calculateData to get all monthly payments for debts, then sorts those payments from high-to-low and passes it to populate data.
+    populateData takes a sorted array and will take the 5 largest values to use for populating the pie chart. 
+  */
   const data = chartData
 
-  // Dimensions for the pie chart
+  // Dimensions and colors for the pie chart
   const width = 300;
   const height = 300;
   const radius = Math.min(width, height) / 2;
 
-  // Create a color scale
-
   const color = d3.scaleOrdinal(debtChartColors)
 
-  // Create a pie chart layout
   const pie = d3.pie().value((d) => d.value);
 
-  // Select the container div
   const svg = d3
     .select("#pie-svg")
     .attr("width", width)

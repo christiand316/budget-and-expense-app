@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import QuickInfoDebt from '../components/debt/QuickInfoDebt';
 import DebtItem from "../components/debt/DebtItem";
-import NewDebtForm from "../components/forms/NewDebtForm"
 
-export function Debt({ group }) {
+const BASE_URL =  process.env.BASE_URL //"http://localhost:3000";
+
+function Debt({ group }) {
   const [budget, setBudget] = useState(null)
-
-  const debtChartColors = ["#519848", "#F06449", "#D3CC00", "#12EAEA", "#55828B",  "#D89982"] //  1stExpense, 2ndExpense, 3rdExpense, 4thExpense, backgroundColor, expenseOverflow
-
-// "#D89982", "#FF8A5B", "#54D180"
 
   async function refreshBudget() {
     try {
@@ -26,8 +23,6 @@ export function Debt({ group }) {
     }
 
   }
-
-  const BASE_URL = "http://localhost:3000";
 
   useEffect(() => {
     async function fetchUserData() {
@@ -46,7 +41,8 @@ export function Debt({ group }) {
     fetchUserData();
 
   }, [])
-
+  // Colors to be used for the SVGs for the debt pie chart & legend. Index 0-5 are the color for their respective item, index 6 is other.
+  const debtChartColors = ["#519848", "#F06449", "#D3CC00", "#12EAEA", "#55828B", "#D89982"]
 
 
   if (budget) {
@@ -74,3 +70,5 @@ export function Debt({ group }) {
     )
   }
 }
+
+export default Debt

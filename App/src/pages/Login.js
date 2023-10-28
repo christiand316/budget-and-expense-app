@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export function Login({ handleLogin, handleSignup }) {
+export default function Login({ handleLogin, handleSignup }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,11 +15,11 @@ export function Login({ handleLogin, handleSignup }) {
     const [nameSignUp, setNameSignUp] = useState('');
 
     const handleSubmitSignUp = (e) => {
-      e.preventDefault();
-      // Perform signup logic here
-      handleSignup(email);
+        e.preventDefault();
+        // Perform signup logic here
+        handleSignup(email);
     };
-  
+
     return (
         <div>
             <div>

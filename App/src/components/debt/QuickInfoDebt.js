@@ -4,7 +4,7 @@ import NewDebtForm from "../forms/NewDebtForm"
 import DebtChartLegend from "./DebtChartLegend"
 import axios from "axios"
 
-const BASE_URL = "http://localhost:3000"
+const BASE_URL =  process.env.BASE_URL //"http://localhost:3000"
 
 function QuickInfoDebt({ budget, budgetId, debtChartColors, refreshBudget }) {
     const [isAddingDebt, setAddingDebt] = useState(false)

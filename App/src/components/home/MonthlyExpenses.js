@@ -5,7 +5,7 @@ import ExpensesChart from "./ExpensesChart";
 import axios from "axios";
 
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL =  process.env.BASE_URL // "http://localhost:3000";
 
 function MonthlyExpenses({ budget, budgetExpenses, addExpense, refreshBudget, budgetUsed }) {
   const [isEditing, setEditing] = useState(false)

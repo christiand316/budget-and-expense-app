@@ -3,19 +3,16 @@ import React, { useState, useEffect, use } from "react";
 
 import axios from "axios";
 import GroupSelect from "../components/group/GroupSelect";
-import { Home } from "./Home";
-import { Debt } from "./Debt";
-import { Goals } from "./Goals";
+import Home from "./Home";
+import Debt from "./Debt";
+import Goals from "./Goals";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = process.env.BASE_URL // "http://localhost:3000";
 
 export default function Landing() {
   const [activeComponent, setActiveComponent] = useState();
   const [userData, setUserData] = useState(null);
-  const [budget, setBudget] = useState(null);
   const { data: session } = useSession();
-
-  //replace with api call
 
   const handleNavButtonClick = (componentName) => {
     setActiveComponent(componentName);
@@ -31,9 +28,7 @@ export default function Landing() {
   } else if (activeComponent === "goals") {
     contentToShow = <Goals />;
   }
-  //
-  //
-  //
+  
   function activeGroup(group) {
     setUserData({
       ...userData,
@@ -42,10 +37,6 @@ export default function Landing() {
     setActiveComponent("home");
   }
 
-  function updateUserData(resBudget) {
-    resBudget;
-    return resBudget.data;
-  }
 
   async function deletePurchase(id) {
     await axios.delete(`${BASE_URL}/api/onetimetransactions/${id}`);
@@ -93,18 +84,10 @@ export default function Landing() {
         console.error(e);
       }
 
-      //setUserData({
-      //  ...userData,
-      //  user,
-      //})
-
       try {
         const group = await axios.get(`${BASE_URL}/api/groups/${user.id}`);
       } catch (e) {}
 
-      //setActiveComponent("home")
-      //} catch (error) {
-      //console.error(error);
     }
 
     fetchUserData();
@@ -119,6 +102,7 @@ export default function Landing() {
       </div>
     );
   }
+
   if (userData && userData?.group == undefined) {
     return (
       <div className="index">

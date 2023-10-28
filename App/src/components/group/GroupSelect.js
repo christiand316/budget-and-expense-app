@@ -3,7 +3,7 @@ import axios from "axios";
 import NewGroupForm from "../forms/NewGroupForm";
 import GroupItem from "./GroupItem";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL =  process.env.BASE_URL //"http://localhost:3000";
 
 function GroupSelect({ userData, activeGroup }) {
     const [isAddingGroup, setAddingGroup] = useState(false)

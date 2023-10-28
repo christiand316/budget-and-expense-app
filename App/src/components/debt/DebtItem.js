@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = process.env.BASE_URL //"http://localhost:3000";
 
 function DebtItem({ description, totalAmount, totalTerm, startTerm, rate, id, budgetId, refreshBudget }) {
   const [isEditing, setEditing] = useState(false);
