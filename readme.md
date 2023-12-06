@@ -21,5 +21,6 @@ npx prisma init
 npx prisma generate
 ```
 Update DATABASE_URL in env
-
+```
 npx run build
+```
